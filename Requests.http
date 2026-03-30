@@ -1,0 +1,16 @@
+﻿### GET request to example server
+GET http://localhost:8080/hello
+###
+GET http://localhost:8080/helloworld
+###
+GET http://localhost:8080/api/v1/software-engineer
+###
+GET http://localhost:8080/api/v1/software-engineer/6
+###
+POST http://localhost:8080/api/v1/software-engineer
+Content-Type:application/json
+
+{
+"name":"jax",
+"tech_stack":"js"
+}
