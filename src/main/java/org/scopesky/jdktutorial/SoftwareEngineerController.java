@@ -25,4 +25,8 @@ public class SoftwareEngineerController {
     public void saveSoftwareEngineer(@RequestBody SoftwareEngineer softwareEngineer){
         SoftwareEngineerService.saveSoftwareEngineer(softwareEngineer);
     }
+    @DeleteMapping("/{id}")
+    public void deleteSoftwareEngineer(@PathVariable Integer id){
+        SoftwareEngineerService.deleteSoftwareEngineer(id);
+    }
 }
