@@ -26,7 +26,19 @@ public class ErrorResponse {
         return message;
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+
+    public String getTrace() {
+        return trace;
     }
 }

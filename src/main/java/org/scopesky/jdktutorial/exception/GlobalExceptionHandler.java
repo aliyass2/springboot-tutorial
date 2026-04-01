@@ -15,22 +15,20 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     //Handle @Valid Failures
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
         Map<String, String> fieldErrors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 fieldErrors.put(error.getField(), error.getDefaultMessage())
         );
 
-        ErrorResponse errorResponse = new ErrorResponse(
-                400,
-                "Validation failed",
-                "Validation errors occurred",
-                fieldErrors.toString(),
-                LocalDateTime.now(),
-                null
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", 400);
+        body.put("error", "Validation failed");
+        body.put("fieldErrors", fieldErrors);
+        body.put("timestamp", LocalDateTime.now());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
     //handle 404
     @ExceptionHandler(ResourceNotFoundException.class)
