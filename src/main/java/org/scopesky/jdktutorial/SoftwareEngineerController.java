@@ -1,5 +1,6 @@
 package org.scopesky.jdktutorial;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class SoftwareEngineerController {
         return SoftwareEngineerService.getSoftwareEngineerById(id);
     }
     @PostMapping
-    public void saveSoftwareEngineer(@RequestBody SoftwareEngineer softwareEngineer){
+    public void saveSoftwareEngineer(@Valid @RequestBody SoftwareEngineer softwareEngineer){
         SoftwareEngineerService.saveSoftwareEngineer(softwareEngineer);
     }
     @DeleteMapping("/{id}")
