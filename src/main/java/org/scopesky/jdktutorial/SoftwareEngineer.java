@@ -1,10 +1,10 @@
 package org.scopesky.jdktutorial;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
 public class SoftwareEngineer {
     @Id
@@ -12,6 +12,9 @@ public class SoftwareEngineer {
     private Integer id;
     private String name;
     private String techStack;
+    @ManyToMany(mappedBy = "engineers")
+    private Set<Project> projects = new HashSet<>();
+
     //parameterized constructor
     public SoftwareEngineer(){}
     public SoftwareEngineer(Integer id, String name, String techStack) {
@@ -54,5 +57,9 @@ public class SoftwareEngineer {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, techStack);
+    }
+
+    public Collection<Project> getProjects() {
+        return projects;
     }
 }
