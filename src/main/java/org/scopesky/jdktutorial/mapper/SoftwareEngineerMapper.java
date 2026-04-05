@@ -15,5 +15,6 @@ public interface SoftwareEngineerMapper {
 
     // Entity → ResponseDTO (for returning)
     @Mapping(target = "projectIds", expression = "java(entity.getProjects().stream().map(p -> p.getId()).collect(Collectors.toSet()))")
+    @Mapping(target = "projectNames", expression = "java(entity.getProjects().stream().map(p -> p.getName()).collect(Collectors.toSet()))")
     SoftwareEngineerResponseDto toDto(SoftwareEngineer entity);
 }

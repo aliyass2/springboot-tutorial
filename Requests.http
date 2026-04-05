@@ -5,15 +5,15 @@ GET http://localhost:8080/helloworld
 ###
 GET http://localhost:8080/api/v1/software-engineer
 ###
-GET http://localhost:8080/api/v1/software-engineer/12
+GET http://localhost:8080/api/v1/softwared-engineer/12
 ###
 POST http://localhost:8080/api/v1/software-engineer
 Content-Type:application/json
 
 {
-"name":"jack",
+"name":"niocolas jackson",
 "techStack":"('java','node','js')",
-  "projectIds": [3,2]
+  "projectIds": [3,4]
 
 }
 ### Update
@@ -36,7 +36,7 @@ POST http://localhost:8080/api/v1/project
 Content-Type:application/json
 
 {
-  "name":"Epassport",
+  "name":"Evisa",
   "description":"completeProject"
 }
 ### Update a Project
