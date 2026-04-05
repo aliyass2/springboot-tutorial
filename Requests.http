@@ -49,3 +49,25 @@ Content-Type:application/json
 }
 ### Delete A Project
 DELETE http://localhost:8080/api/v1/project/1
+
+
+### Authentication
+### Register
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+"name":"ali yass2",
+"username":"aliyass2",
+"password":"Admin@123"
+}
+### Login
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+"username":"aliyass2",
+"password":"Admin@123"
+}
+
+
