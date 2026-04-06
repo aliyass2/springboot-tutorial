@@ -6,9 +6,11 @@ import org.scopesky.jdktutorial.dto.ProjectResponseDTO;
 import org.scopesky.jdktutorial.exception.ResourceNotFoundException;
 import org.scopesky.jdktutorial.mapper.ProjectMapper;
 import org.scopesky.jdktutorial.repositories.ProjectRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProjectService {
@@ -21,11 +23,13 @@ public class ProjectService {
         this.projectMapper = projectMapper;
     }
     //Get all projects
-    public List<ProjectResponseDTO> getAllProjects() {
-        return projectRepository.findAll()
-                .stream()
-                .map(projectMapper::toDto)
-                .toList();
+    public Page<ProjectResponseDTO> getAllProjects(int page, int size, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return projectRepository.findAll(pageable)
+                .map(projectMapper::toDto);
     }
     //Get Project By ID
     public ProjectResponseDTO getProjectById(Long id) {

@@ -3,10 +3,8 @@ package org.scopesky.jdktutorial.controllers;
 import org.scopesky.jdktutorial.dto.ProjectRequestDTO;
 import org.scopesky.jdktutorial.dto.ProjectResponseDTO;
 import org.scopesky.jdktutorial.services.ProjectService;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/project")
@@ -18,8 +16,12 @@ public class ProjectController {
     }
     //Get All Projects
     @GetMapping
-    public List<ProjectResponseDTO> getAllProjects(){
-        return projectService.getAllProjects();
+    public Page<ProjectResponseDTO> getAllProjects(
+            @RequestParam(defaultValue = "0")    int page,
+            @RequestParam(defaultValue = "10")   int size,
+            @RequestParam(defaultValue = "id")   String sortBy,
+            @RequestParam(defaultValue = "asc")  String sortDir) {
+        return projectService.getAllProjects(page, size, sortBy, sortDir);
     }
     @GetMapping ("/{id}")
     public ProjectResponseDTO getProjectById(@PathVariable Long id){

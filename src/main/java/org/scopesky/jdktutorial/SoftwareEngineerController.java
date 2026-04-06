@@ -3,9 +3,8 @@ package org.scopesky.jdktutorial;
 import jakarta.validation.Valid;
 import org.scopesky.jdktutorial.dto.SoftwareEngineerRequestDTO;
 import org.scopesky.jdktutorial.dto.SoftwareEngineerResponseDto;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/software-engineer")
@@ -16,8 +15,12 @@ public class SoftwareEngineerController {
     }
 
     @GetMapping
-    public List<SoftwareEngineerResponseDto> getAll() {
-        return SoftwareEngineerService.getAllSoftwareEngineers();
+    public Page<SoftwareEngineerResponseDto> getAll(
+            @RequestParam(defaultValue = "0")   int page,
+            @RequestParam(defaultValue = "10")  int size,
+            @RequestParam(defaultValue = "id")  String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+        return SoftwareEngineerService.getAllSoftwareEngineers(page, size, sortBy, sortDir);
     }
     @GetMapping("/{id}")
     public SoftwareEngineerResponseDto getSoftwareEngineerById(@PathVariable Integer id){

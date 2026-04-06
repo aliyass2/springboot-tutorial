@@ -6,10 +6,13 @@ import org.scopesky.jdktutorial.exception.ResourceNotFoundException;
 import org.scopesky.jdktutorial.mapper.SoftwareEngineerMapper;
 import org.scopesky.jdktutorial.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -24,11 +27,13 @@ public class SoftwareEngineerService {
         this.softwareEngineerRepository = softwareEngineerRepository;
         this.projectRepository = projectRepository;
     }
-    public List<SoftwareEngineerResponseDto> getAllSoftwareEngineers(){
-        return softwareEngineerRepository.findAll()
-                .stream()
-                .map(softwareEngineerMapper::toDto)
-                .toList();
+    public Page<SoftwareEngineerResponseDto> getAllSoftwareEngineers(int page, int size, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return softwareEngineerRepository.findAll(pageable)
+                .map(softwareEngineerMapper::toDto);
     }
     //we first find the software engineer by id and then return it, we now use our mapper here as well
     public SoftwareEngineerResponseDto getSoftwareEngineerById(Integer id) {
