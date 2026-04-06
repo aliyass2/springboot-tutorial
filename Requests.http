@@ -1,73 +1,99 @@
-﻿### GET request to example server
-GET http://localhost:8080/hello
-###
-GET http://localhost:8080/helloworld
-###
-GET http://localhost:8080/api/v1/software-engineer
-###
-GET http://localhost:8080/api/v1/softwared-engineer/12
-###
-POST http://localhost:8080/api/v1/software-engineer
-Content-Type:application/json
-
-{
-"name":"niocolas jackson",
-"techStack":"('java','node','js')",
-  "projectIds": [3,4]
-
-}
-### Update
-PUT http://localhost:8080/api/v1/software-engineer/12
-Content-Type:application/json
-
-{
-  "name":"UPDATED",
-  "techStack":"('java','node','js')"
-}
-### Delete
-DELETE http://localhost:8080/api/v1/software-engineer/16
-### Project Cruds
-### Get All Projects
-GET http://localhost:8080/api/v1/project
-### Get Project By Id
-GET http://localhost:8080/api/v1/project/1
-### Create a Project
-POST http://localhost:8080/api/v1/project
-Content-Type:application/json
-
-{
-  "name":"Evisa",
-  "description":"completeProject"
-}
-### Update a Project
-PUT http://localhost:8080/api/v1/project/1
-Content-Type:application/json
-
-{
-  "name":"updated",
-  "description":"completeProject"
-}
-### Delete A Project
-DELETE http://localhost:8080/api/v1/project/1
-
-
-### Authentication
-### Register
-POST http://localhost:8080/api/v1/auth/register
+﻿### Authentication
+### Register (ADMIN)
+POST {{baseUrl}}/api/v1/auth/register
 Content-Type: application/json
 
 {
-"name":"ali yass2",
-"username":"aliyass2",
-"password":"Admin@123"
+  "name": "admin",
+  "username": "admin",
+  "password": "Admin@123",
+  "role": "ADMIN"
 }
-### Login
-POST http://localhost:8080/api/v1/auth/login
+
+### Register (USER)
+POST {{baseUrl}}/api/v1/auth/register
 Content-Type: application/json
 
 {
-"username":"aliyass2",
-"password":"Admin@123"
+  "name": "alice",
+  "username": "alice",
+  "password": "Alice@123"
 }
+
+### Login — copy the returned token into http-client.env.json -> "token"
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Admin@123"
+}
+
+### Software Engineer
+### Get All (USER or ADMIN)
+GET {{baseUrl}}/api/v1/software-engineer
+Authorization: Bearer {{token}}
+
+### Get By Id (USER or ADMIN)
+GET {{baseUrl}}/api/v1/software-engineer/1
+Authorization: Bearer {{token}}
+
+### Create (ADMIN only)
+POST {{baseUrl}}/api/v1/software-engineer
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Nicolas Jackson",
+  "techStack": "Java, Node, JS",
+  "projectIds": []
+}
+
+### Update (ADMIN only)
+PUT {{baseUrl}}/api/v1/software-engineer/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "UPDATED",
+  "techStack": "Java, Node, JS"
+}
+
+### Delete (ADMIN only)
+DELETE {{baseUrl}}/api/v1/software-engineer/1
+Authorization: Bearer {{token}}
+
+### Projects
+### Get All (USER or ADMIN)
+GET {{baseUrl}}/api/v1/project
+Authorization: Bearer {{token}}
+
+### Get By Id (USER or ADMIN)
+GET {{baseUrl}}/api/v1/project/1
+Authorization: Bearer {{token}}
+
+### Create (ADMIN only)
+POST {{baseUrl}}/api/v1/project
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Evisa",
+  "description": "Complete Project"
+}
+
+### Update (ADMIN only)
+PUT {{baseUrl}}/api/v1/project/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Updated Project",
+  "description": "Complete Project"
+}
+
+### Delete (ADMIN only)
+DELETE {{baseUrl}}/api/v1/project/1
+Authorization: Bearer {{token}}
 
 

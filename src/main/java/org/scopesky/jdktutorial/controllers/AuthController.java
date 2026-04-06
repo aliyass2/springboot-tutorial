@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -41,7 +42,8 @@ public class AuthController {
         user.setName(request.getName());
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole("USER");
+        String role = (request.getRole() != null && !request.getRole().isBlank()) ? request.getRole().toUpperCase() : "USER";
+        user.setRoles(Set.of(role));
 
         userRepository.save(user);
 

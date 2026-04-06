@@ -44,24 +44,29 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         // 3. extract the token (strip "Bearer ")
         String token = authHeader.substring(7);
-        String username = jwtUtil.extractUsername(token);
 
-        // 4. if we got a username and no auth is set yet
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        try {
+            String username = jwtUtil.extractUsername(token);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            // 4. if we got a username and no auth is set yet
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            if (jwtUtil.isTokenValid(token, userDetails)) {
-                // 5. create an auth token and set it in the SecurityContext
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                if (jwtUtil.isTokenValid(token, userDetails)) {
+                    // 5. create an auth token and set it in the SecurityContext
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+        } catch (Exception ignored) {
+            // invalid/expired/malformed token — continue as unauthenticated
         }
 
         // 6. continue the request

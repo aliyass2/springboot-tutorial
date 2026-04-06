@@ -3,6 +3,7 @@ package org.scopesky.jdktutorial.exception;
 import org.scopesky.jdktutorial.models.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +30,12 @@ public class GlobalExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+    //handle 403
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(403, "Access denied", "Forbidden", null, LocalDateTime.now(), null);
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
     //handle 404
     @ExceptionHandler(ResourceNotFoundException.class)
