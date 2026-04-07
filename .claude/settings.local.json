@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs -I{} sh -c '\"\"C:/Program Files/Eclipse Adoptium/jdk-25.0.1.8-hotspot/bin/jar\"\" tf \"\"{}\"\" 2>/dev/null | grep -l \"\"DataJpaTest\"\" && echo \"\"{}\"\"')",
+      "Bash(do:*)",
+      "Bash(JAVA_HOME=\"C:/Program Files/Eclipse Adoptium/jdk-25.0.1.8-hotspot\" ./mvnw dependency:get:*)"
+    ]
+  }
+}

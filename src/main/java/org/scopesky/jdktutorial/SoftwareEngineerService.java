@@ -5,7 +5,6 @@ import org.scopesky.jdktutorial.dto.SoftwareEngineerResponseDto;
 import org.scopesky.jdktutorial.exception.ResourceNotFoundException;
 import org.scopesky.jdktutorial.mapper.SoftwareEngineerMapper;
 import org.scopesky.jdktutorial.repositories.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,12 +19,14 @@ public class SoftwareEngineerService {
 
     private final SoftwareEngineerRepository softwareEngineerRepository;
     private final ProjectRepository projectRepository;
-    @Autowired
-    private SoftwareEngineerMapper softwareEngineerMapper;
+    private final SoftwareEngineerMapper softwareEngineerMapper;
 
-    public SoftwareEngineerService(SoftwareEngineerRepository softwareEngineerRepository, ProjectRepository projectRepository) {
+    public SoftwareEngineerService(SoftwareEngineerRepository softwareEngineerRepository,
+                                   ProjectRepository projectRepository,
+                                   SoftwareEngineerMapper softwareEngineerMapper) {
         this.softwareEngineerRepository = softwareEngineerRepository;
         this.projectRepository = projectRepository;
+        this.softwareEngineerMapper = softwareEngineerMapper;
     }
     public Page<SoftwareEngineerResponseDto> getAllSoftwareEngineers(int page, int size, String sortBy, String sortDir) {
         Sort sort = sortDir.equalsIgnoreCase("desc")
